@@ -148,3 +148,235 @@ documentaremos los endpoints de la api usando la herramienta de swagger para pod
 ## Despliegue 
 
 una vez tengamos una version "final" podriamos intentar desplegarla en un entorno de produccion por ejemplo en la nube
+
+
+# FRONT-END
+
+## Planificación y diseño
+
+### Ideas y objetivos
+
+El front-end de DevRank se centrará en proporcionar una interfaz de usuario intuitiva y atractiva para los desarrolladores y empleadores. El objetivo principal es facilitar la búsqueda de empleo y la gestión de retos de programación.
+
+### Requisitos funcionales y no funcionales
+
+#### Requisitos Funcionales:
+
+Registro de Usuarios: Permitir que los desarrolladores se registren en la plataforma.
+Búsqueda de Empleo: Implementar una función de búsqueda de ofertas de trabajo basada en palabras clave.
+Gestión de Retos: Crear, resolver y calificar retos de programación.
+Generación de Rankings: Calcular y mostrar rankings en tiempo real según los puntos obtenidos por los usuarios.
+
+#### Requisitos No Funcionales:
+
+Seguridad: Garantizar que la plataforma sea segura mediante autenticación y autorización adecuadas.
+Rendimiento: Establecer tiempos de respuesta aceptables para las búsquedas y la carga de páginas.
+Usabilidad: Hacer que la interfaz de usuario sea intuitiva y fácil de usar.
+
+### Diseño de arquitectura
+
+#### Front-end con Next.js y React:
+Next.js es un framework de React que facilita la creación de aplicaciones web rápidas y eficientes.
+Aprovecharemos las ventajas de componentes reutilizables y un flujo de datos unidireccional.
+Implementaremos rutas dinámicas para cargar contenido de forma asincrónica y mejorar el rendimiento.
+
+#### Estilos con Tailwind CSS:
+Tailwind CSS es una biblioteca de estilos que nos permite diseñar interfaces de usuario modernas y personalizables.
+Utilizaremos clases predefinidas para estilizar los componentes y mantener un diseño coherente en toda la aplicación.
+
+#### Pruebas con Jest y React Testing Library:
+Jest es un marco de pruebas de JavaScript que nos permite realizar pruebas unitarias y de integración.
+React Testing Library proporciona utilidades para probar componentes de React de forma sencilla y efectiva.
+
+#### Documentación con Storybook:
+Storybook es una herramienta que nos permite documentar y probar componentes de forma aislada.
+Crearemos historias para cada componente y generaremos una guía de estilo interactiva para el front-end.
+
+## Configuración del entorno de desarrollo
+
+### Configuración del entorno local
+
+Para el entorno local, utilizaremos Visual Studio Code como IDE principal y Node.js como entorno de ejecución de JavaScript.
+
+### Herramientas necesarias
+
+Las herramientas esenciales para el desarrollo del front-end de DevRank son:
+
+Node.js: Entorno de ejecución de JavaScript.
+bun: Gestor de paquetes de Node.js.
+Next.js: Framework de React para aplicaciones web.
+Tailwind CSS: Biblioteca de estilos para diseñar interfaces de usuario.
+Jest: Marco de pruebas de JavaScript.
+React Testing Library: Utilidades para probar componentes de React.
+Storybook: Herramienta para documentar y probar componentes de forma aislada.
+
+## Creación de componentes
+
+Lo primero en lo que nos centraremos al crear el front-end de DevRank es en los componentes.
+
+### Componente de Registro:
+
+Permitirá a los desarrolladores registrarse en la plataforma.
+Recopilará información como nombre, dirección de correo electrónico, habilidades, etc.
+Validará los datos ingresados por el usuario y enviará una solicitud al servidor para crear una cuenta.
+
+### Componente de Búsqueda de Empleo:
+
+Implementará una función de búsqueda de ofertas de trabajo basada en palabras clave.
+Mostrará los resultados de la búsqueda en una lista interactiva.
+Permitirá a los usuarios filtrar y ordenar los resultados según sus preferencias.
+
+### Componente de Gestión de Retos:
+
+Permitirá a los usuarios crear, resolver y calificar retos de programación.
+Mostrará una lista de retos disponibles y permitirá a los usuarios seleccionar y resolver un reto.
+Calificará automáticamente la solución del usuario y actualizará su puntuación en tiempo real.
+
+### Componente de Generación de Rankings:
+
+Calculará y mostrará rankings en tiempo real según los puntos obtenidos por los usuarios.
+Mostrará una lista de los mejores desarrolladores y empleadores en la plataforma.
+Permitirá a los usuarios ver su posición en el ranking y comparar su puntuación con otros usuarios.
+
+## Estilos y diseño
+
+Utilizaremos Tailwind CSS para estilizar los componentes y mantener un diseño coherente en toda la aplicación.
+
+### Paleta de Colores:
+
+Definiremos una paleta de colores consistente para la aplicación.
+Utilizaremos colores llamativos y contrastantes para resaltar elementos importantes.
+Mantendremos un equilibrio entre colores claros y oscuros para mejorar la legibilidad y la accesibilidad.
+
+### Tipografía:
+
+Seleccionaremos fuentes legibles y modernas para el texto en la aplicación.
+Utilizaremos tamaños de fuente coherentes y jerarquías visuales claras para mejorar la usabilidad.
+Aprovecharemos las ventajas de fuentes web para garantizar una carga rápida y una apariencia consistente en todos los dispositivos.
+
+### Diseño Responsivo:
+
+Diseñaremos la aplicación para que sea compatible con una amplia gama de dispositivos y tamaños de pantalla.
+Utilizaremos técnicas de diseño responsivo como flexbox y grid para crear diseños adaptables.
+Probaremos la aplicación en dispositivos móviles y de escritorio para garantizar una experiencia de usuario óptima en todos los casos.
+
+## Pruebas unitarias
+
+Realizaremos pruebas unitarias a cada componente para garantizar su correcto funcionamiento y detectar posibles errores.
+
+### Pruebas con Jest:
+
+Utilizaremos Jest para escribir y ejecutar pruebas unitarias en los componentes.
+Probaremos las funciones y métodos de los componentes para asegurarnos de que se comporten como se espera.
+Realizaremos pruebas de integración para comprobar la interacción entre los componentes y su integración en la aplicación.
+
+### Pruebas con React Testing Library:
+
+Utilizaremos React Testing Library para probar los componentes de React de forma efectiva.
+Simularemos eventos y acciones del usuario para verificar la interactividad de los componentes.
+Realizaremos pruebas de accesibilidad para garantizar que la aplicación sea usable por personas con discapacidades.
+
+## Documentación
+
+Documentaremos los componentes de la aplicación utilizando Storybook para generar una guía de estilo interactiva.
+
+### Creación de Historias:
+
+Escribiremos historias para cada componente de la aplicación.
+Mostraremos diferentes estados y variaciones de los componentes para documentar su comportamiento.
+Añadiremos comentarios y descripciones detalladas para explicar el propósito y la funcionalidad de cada componente.
+
+### Generación de Guía de Estilo:
+
+Generaremos una guía de estilo interactiva con Storybook.
+Permitiremos a los desarrolladores y diseñadores explorar y probar los componentes de forma aislada.
+Facilitaremos la colaboración y la revisión del diseño mediante la documentación detallada de los componentes.
+
+## Despliegue
+
+Una vez tengamos una versión "final" del front-end de DevRank, podremos desplegarlo en un entorno de producción, por ejemplo, en la nube.
+
+### Despliegue en Vercel:
+
+Utilizaremos Vercel para desplegar la aplicación en la nube.
+Configuraremos la integración continua para automatizar el proceso de despliegue.
+Aprovecharemos las ventajas de Vercel, como la escalabilidad y la disponibilidad, para garantizar un rendimiento óptimo de la aplicación.
+
+### Configuración de Dominio Personalizado:
+
+Asignaremos un dominio personalizado a la aplicación para mejorar su accesibilidad y visibilidad.
+Configuraremos la redirección de tráfico y la gestión de DNS para dirigir el tráfico al dominio correcto.
+Aseguraremos la seguridad y la privacidad del dominio mediante certificados SSL y políticas de privacidad.
+
+### Monitorización y Análisis:
+
+Implementaremos herramientas de monitorización y análisis para supervisar el rendimiento de la aplicación.
+Utilizaremos métricas como el tiempo de carga, la tasa de conversión y la retención de usuarios para evaluar el éxito de la aplicación.
+Realizaremos pruebas de rendimiento y optimización para mejorar la velocidad y la eficiencia de la aplicación.
+
+
+# Despliegue con Docker
+
+## Configuración de Docker
+
+### Creación de Contenedores:
+
+Utilizaremos Docker para crear contenedores independientes para cada microservicio.
+Definiremos un archivo Dockerfile para cada microservicio con las instrucciones necesarias para construir la imagen.
+Configuraremos los contenedores para que se comuniquen entre sí y con la API Gateway.
+
+### Orquestación con Docker Compose:
+
+Utilizaremos Docker Compose para orquestar los contenedores y gestionar su despliegue.
+Definiremos un archivo docker-compose.yml con la configuración de los servicios y las redes necesarias.
+Ejecutaremos el comando docker-compose up para iniciar los contenedores y desplegar la aplicación.
+
+### Escalabilidad y Disponibilidad:
+
+Aprovecharemos las ventajas de Docker para escalar y distribuir los microservicios según la demanda.
+Configuraremos los contenedores para que se autoescalen y se recuperen automáticamente en caso de fallo.
+Utilizaremos herramientas de monitorización y análisis para supervisar el rendimiento y la disponibilidad de la aplicación.
+
+## Despliegue en Kubernetes
+
+### Configuración de Kubernetes:
+
+Utilizaremos Kubernetes para orquestar y gestionar los contenedores en un entorno de producción.
+Definiremos archivos de configuración YAML para crear los pods, servicios y volúmenes necesarios.
+Configuraremos los recursos de Kubernetes para garantizar la escalabilidad y la disponibilidad de la aplicación.
+
+### Despliegue en un Cluster de Kubernetes:
+
+Desplegaremos la aplicación en un clúster de Kubernetes en la nube.
+Configuraremos los nodos y los servicios de Kubernetes para distribuir la carga de trabajo y mejorar el rendimiento.
+Utilizaremos herramientas de monitorización y análisis para supervisar el clúster y optimizar su rendimiento.
+
+### Escalabilidad Automática:
+
+Configuraremos la escalabilidad automática de Kubernetes para ajustar dinámicamente los recursos según la demanda.
+Utilizaremos métricas como el uso de CPU y memoria para escalar los pods y los nodos de forma automática.
+Aprovecharemos las ventajas de Kubernetes para garantizar un rendimiento óptimo y una alta disponibilidad de la aplicación.
+
+## Conclusiones
+
+
+## Referencias
+
+- [Node.js](https://nodejs.org/)
+- [Express](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [MySQL](https://www.mysql.com/)
+- [Docker](https://www.docker.com/)
+- [Kubernetes](https://kubernetes.io/)
+- [Next.js](https://nextjs.org/)
+- [React](https://reactjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Jest](https://jestjs.io/)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro)
+- [Storybook](https://storybook.js.org/)
+- [Vercel](https://vercel.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Kubernetes Documentation](https://kubernetes.io/docs/)
+- [Amazon SNS](https://aws.amazon.com/sns/)
+
+```
