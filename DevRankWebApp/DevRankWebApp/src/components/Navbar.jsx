@@ -10,11 +10,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useTheme } from "./theme-provider";
 
 export default function Navbar() {
-  const { logout } = useAuth();
-  const { setTheme } = useTheme();
+  const { logout, user } = useAuth();
+
   return (
     <nav className="fixed w-full h-16 top-0 flex justify-between bg-transparent backdrop-blur z-[1000] border-b p-5">
       <div className="flex gap-x-2 items-center">
@@ -46,7 +45,7 @@ export default function Navbar() {
           <DropdownMenuTrigger>
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarFallback>{user.userName[0]}</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent>

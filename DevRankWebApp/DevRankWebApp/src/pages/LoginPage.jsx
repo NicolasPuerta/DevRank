@@ -32,9 +32,7 @@ export default function LoginPage() {
   });
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/home");
-    }
+    if (isAuthenticated) navigate("/home");
   }, [isAuthenticated]);
 
   useEffect(() => {

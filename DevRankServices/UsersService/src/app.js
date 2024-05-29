@@ -1,9 +1,10 @@
 import express from "express";
 import morgan from "morgan";
-import cookieParser from "cookie-parser";
 import cors from "cors";
+import fileUpload from "express-fileupload";
 
 import authRoutes from "./routes/auth.routes.js";
+import profileRoutes from "./routes/profile.routes.js";
 
 const app = express();
 
@@ -15,8 +16,14 @@ app.use(
 );
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cookieParser());
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/uploads/profileImages",
+  })
+);
 
-app.use("/api/usersService", authRoutes);
+app.use("/api/usersService/auth", authRoutes);
+app.use("/api/usersService/profile", profileRoutes);
 
 export default app;

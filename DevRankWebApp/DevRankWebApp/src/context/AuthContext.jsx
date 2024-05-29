@@ -6,6 +6,8 @@ import {
   logoutRequest,
 } from "@/api/auth";
 
+import { updateProfileRequest } from "@/api/profile";
+
 const AuthContext = createContext();
 
 export const useAuth = () => {
@@ -18,6 +20,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const signup = async (user) => {
     try {
@@ -25,7 +28,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", res.data.token);
       setUser(res.data);
       setIsAuthenticated(true);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       setErrors(error.response.data.error);
     }
   };
@@ -36,7 +41,9 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", res.data.token);
       setUser(res.data);
       setIsAuthenticated(true);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       setErrors(error.response.data.error);
     }
   };
@@ -52,6 +59,14 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateProfile = async (data) => {
+    try {
+      await updateProfileRequest(data);
+    } catch (error) {
+      setErrors(error.response.data.error);
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -59,8 +74,10 @@ export const AuthProvider = ({ children }) => {
         .then((res) => {
           setUser(res.data);
           setIsAuthenticated(true);
+          setLoading(false);
         })
         .catch((error) => {
+          setLoading(false);
           localStorage.removeItem("token");
           setErrors(error.response.data.error);
         });
@@ -69,7 +86,16 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ signup, signin, logout, user, isAuthenticated, errors }}
+      value={{
+        signup,
+        signin,
+        logout,
+        user,
+        updateProfile,
+        isAuthenticated,
+        errors,
+        loading,
+      }}
     >
       {children}
     </AuthContext.Provider>

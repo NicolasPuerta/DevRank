@@ -12,6 +12,10 @@ export const register = async (req, res) => {
     if (devFound)
       return res.status(400).json({ error: ["User already exist"] });
 
+    const emailFound = await Developer.findOne({ email });
+    if (emailFound)
+      return res.status(400).json({ error: ["Email already in use"] });
+
     const paswordHash = await bcrypt.hash(password, 10);
 
     const newDev = new Developer({
@@ -31,11 +35,19 @@ export const register = async (req, res) => {
       name: devSaved.name,
       lastName: devSaved.lastName,
       email: devSaved.email,
+      about: devSaved.about,
+      profileImage: devSaved.profileImage,
+      documents: devSaved.documents,
+      experience: devSaved.experience,
+      education: devSaved.education,
+      skills: devSaved.skills,
+      socialLinks: devSaved.socialLinks,
       createdAt: devSaved.createdAt,
       updatedAt: devSaved.updatedAt,
       token: token,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: error.message });
   }
 };
@@ -53,7 +65,10 @@ export const login = async (req, res) => {
     if (!passwordMach)
       return res.status(401).json({ error: ["Invalid password"] });
 
-    const token = await createAccessToken({ id: devFound._id });
+    const token = await createAccessToken({
+      id: devFound._id,
+      userName: devFound.userName,
+    });
 
     res.json({
       id: devFound._id,
@@ -61,6 +76,13 @@ export const login = async (req, res) => {
       name: devFound.name,
       lastName: devFound.lastName,
       email: devFound.email,
+      about: devFound.about,
+      profileImage: devFound.profileImage,
+      documents: devFound.documents,
+      experience: devFound.experience,
+      education: devFound.education,
+      skills: devFound.skills,
+      socialLinks: devFound.socialLinks,
       createdAt: devFound.createdAt,
       updatedAt: devFound.updatedAt,
       token: token,
@@ -74,26 +96,6 @@ export const logout = (req, res) => {
   return res.send({ status: "OK", data: "Logout successful" });
 };
 
-export const profile = async (req, res) => {
-  try {
-    const devFound = await Developer.findById(req.dev.id);
-
-    if (!devFound) return res.status(400).json({ message: "User not found" });
-
-    res.json({
-      id: devFound._id,
-      userName: devFound.userName,
-      name: devFound.name,
-      lastName: devFound.lastName,
-      email: devFound.email,
-      createdAt: devFound.createdAt,
-      updatedAt: devFound.updatedAt,
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 export const verifyToken = async (req, res) => {
   try {
     const token = req.header("Authorization");
@@ -103,18 +105,31 @@ export const verifyToken = async (req, res) => {
     jwt.verify(token, TOKEN_SECRET, async (error, dev) => {
       if (error) return res.status(401).json({ message: "Unauthorized" });
 
-      const devFound = await Developer.findById(dev.id, (error, dev));
-      if (!devFound) return res.status(400).json({ message: "User not found" });
+      try {
+        const devFound = await Developer.findById(dev.id);
+        if (!devFound)
+          return res.status(400).json({ message: "User not found" });
 
-      return res.json({
-        id: devFound._id,
-        userName: devFound.userName,
-        name: devFound.name,
-        lastName: devFound.lastName,
-        email: devFound.email,
-        createdAt: devFound.createdAt,
-        updatedAt: devFound.updatedAt,
-      });
+        return res.json({
+          id: devFound._id,
+          userName: devFound.userName,
+          name: devFound.name,
+          lastName: devFound.lastName,
+          email: devFound.email,
+          about: devFound.about,
+          profileImage: devFound.profileImage,
+          documents: devFound.documents,
+          experience: devFound.experience,
+          education: devFound.education,
+          skills: devFound.skills,
+          socialLinks: devFound.socialLinks,
+          createdAt: devFound.createdAt,
+          updatedAt: devFound.updatedAt,
+          token: token,
+        });
+      } catch (error) {
+        return res.status(500).json({ message: error.message });
+      }
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
