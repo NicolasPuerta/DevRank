@@ -23,7 +23,17 @@ export default function DinamicDialogForm({ fields, label, onSubmitHandler }) {
   } = useForm();
 
   const onSubmit = (data) => {
-    onSubmitHandler(data);
+    const formData = new FormData();
+
+    fields.forEach(({ name, type }) => {
+      if (type === "file" && data[name].length > 0) {
+        formData.append(name, data[name][0]);
+      } else {
+        formData.append(name, data[name]);
+      }
+    });
+
+    onSubmitHandler(formData);
     reset();
   };
 
@@ -37,7 +47,7 @@ export default function DinamicDialogForm({ fields, label, onSubmitHandler }) {
           <DialogTitle>{label}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} form={label + "-form"}>
-          {fields.map(({ name, label, type, validation }) => (
+          {fields.map(({ name, label, type, validation, defaultValue }) => (
             <div key={name} className="my-4">
               <Label htmlFor={name}>{label}</Label>
               {errors[name] && (
@@ -49,17 +59,15 @@ export default function DinamicDialogForm({ fields, label, onSubmitHandler }) {
                 <Textarea
                   id={name}
                   className="bg-secondary"
-                  {...register(name, validation)}
+                  {...register(name, { ...validation, value: defaultValue })}
                 />
               ) : (
                 <Input
                   id={name}
                   className="bg-secondary"
                   type={type}
+                  defaultValue={defaultValue}
                   {...register(name, validation)}
-                  onChange={(e) => {
-                    console.log(e.target.value);
-                  }}
                 />
               )}
             </div>

@@ -14,37 +14,62 @@ export default function ProfilePage() {
   const { toast } = useToast();
   const [localUser, setLocalUser] = useState({ ...user });
   const [isEditing, setIsEditing] = useState(false);
+  const [sendData, setSendData] = useState({});
+  const [profileImage, setProfileImage] = useState(null);
 
   useEffect(() => {
     setLocalUser({ ...user });
+    setProfileImage(user.profileImage.url);
   }, [user]);
 
   const onSubmit = (field, data) => {
     if (field === "") {
-      setLocalUser({ ...localUser, ...data });
+      setLocalUser({ ...localUser, ...Object.fromEntries(data.entries()) });
+      setSendData(Object.fromEntries(data.entries()));
+      if (data.get("profileImage")) {
+        setProfileImage(URL.createObjectURL(data.get("profileImage")));
+      }
     } else {
-      setLocalUser({ ...localUser, [field]: [...localUser[field], data] });
+      setLocalUser({
+        ...localUser,
+        [field]: [...localUser[field], Object.fromEntries(data.entries())],
+      });
+      setSendData({
+        [field]: [...localUser[field], Object.fromEntries(data.entries())],
+      });
     }
     setIsEditing(true);
-    console.log(localUser);
   };
 
   const handleUpdateProfile = async () => {
-    const dataFormat = {
-      id: user.id,
-      data: localUser,
-    };
-    await updateProfile(dataFormat);
-    setIsEditing(false);
-    toast({
-      description: "Profile updated successfully!",
-    });
+    const formData = new FormData();
+    formData.append("id", user.id);
+    formData.append("data", JSON.stringify(sendData));
+
+    if (sendData.profileImage) {
+      formData.append("profileImage", sendData.profileImage);
+    }
+
+    try {
+      await updateProfile(formData);
+      setIsEditing(false);
+      toast({
+        description: "Profile updated successfully!",
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        description: "Something went wrong!",
+      });
+    }
   };
 
   const handleDeleteSkill = (index) => {
     const newSkills = [...localUser.skills];
     newSkills.splice(index, 1);
     setLocalUser({ ...localUser, skills: newSkills });
+    setSendData({ skills: newSkills });
     setIsEditing(true);
   };
 
@@ -71,10 +96,7 @@ export default function ProfilePage() {
       <div className="flex flex-col gap-8 my-10">
         <Card className="flex items-center gap-4 px-4 py-6 md:px-6 md:py-8 m-6">
           <Avatar className="h-20 w-20 md:h-28 md:w-28">
-            <AvatarImage
-              alt={localUser.userName}
-              src={localUser.profileImage}
-            />
+            <AvatarImage alt={localUser.userName} src={profileImage} />
             <AvatarFallback>{localUser.userName[0]}</AvatarFallback>
           </Avatar>
 
@@ -83,6 +105,7 @@ export default function ProfilePage() {
               {localUser.name + " " + localUser.lastName}
             </h1>
             <p className="text-sm">@{localUser.userName}</p>
+            <p className=" text-sm">points: {localUser.points}</p>
           </div>
           <DinamicDialogForm
             fields={[
@@ -90,19 +113,20 @@ export default function ProfilePage() {
                 name: "profileImage",
                 label: "Profile Image",
                 type: "file",
-                validation: { required: true },
               },
               {
                 name: "name",
                 label: "Name",
                 type: "text",
                 validation: { required: true },
+                defaultValue: localUser.name,
               },
               {
                 name: "lastName",
                 label: "Last Name",
                 type: "text",
                 validation: { required: true },
+                defaultValue: localUser.lastName,
               },
             ]}
             label="Edit Profile"
@@ -112,7 +136,7 @@ export default function ProfilePage() {
 
         <div className="grid gap-8 px-4 md:px-6 lg:grid-cols-[1fr_2fr]">
           <div className="space-y-8">
-            <Card className=" max-w-[485px]">
+            <Card>
               <CardHeader className="flex flex-row justify-between items-center">
                 <CardTitle>About</CardTitle>
                 <DinamicDialogForm
@@ -122,6 +146,7 @@ export default function ProfilePage() {
                       label: "About",
                       type: "textarea",
                       validation: { required: true },
+                      defaultValue: localUser.about,
                     },
                   ]}
                   label="Edit About"
@@ -135,7 +160,7 @@ export default function ProfilePage() {
               </CardContent>
             </Card>
 
-            <Card className=" max-w-[485px]">
+            <Card>
               <CardHeader className="flex flex-row justify-between items-center">
                 <CardTitle>Skills</CardTitle>
                 <DinamicDialogForm
@@ -204,7 +229,7 @@ export default function ProfilePage() {
 
           <div className="space-y-8">
             <Card>
-              <CardHeader className="flex flex-row justify-between items-center">
+              <CardHeader className="flex flex-row justify-between  items-center">
                 <CardTitle>Experience</CardTitle>
                 <DinamicDialogForm
                   fields={[
@@ -242,7 +267,7 @@ export default function ProfilePage() {
                   onSubmitHandler={(data) => onSubmit("experience", data)}
                 />
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-12">
                 {localUser.experience.map((exp, index) => (
                   <div key={index} className="grid gap-2 bg-outline">
                     <div className="flex items-center justify-between">
@@ -294,7 +319,7 @@ export default function ProfilePage() {
                   onSubmitHandler={(data) => onSubmit("education", data)}
                 />
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-12">
                 {localUser.education.map((edu, index) => (
                   <div key={index} className="grid gap-2">
                     <div className="flex items-center justify-between">

@@ -30,7 +30,7 @@ export default function RegisterPage() {
   });
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/home");
+    if (isAuthenticated) navigate("/login");
   }, [isAuthenticated]);
 
   useEffect(() => {

@@ -107,8 +107,12 @@ const devSchema = new mongoose.Schema(
       required: true,
     },
     profileImage: {
-      type: String,
-      default: "https://github.com/shadcn.png",
+      publicId: String,
+      url: String,
+    },
+    points: {
+      type: Number,
+      default: 0,
     },
     experience: [experienceSchema],
     education: [educationSchema],

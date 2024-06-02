@@ -1,4 +1,6 @@
 import Developer from "../models/dev.model.js";
+import { uploadImage } from "../lib/cloudinary.js";
+import fs from "fs-extra";
 
 export const profile = async (req, res) => {
   try {
@@ -14,6 +16,7 @@ export const profile = async (req, res) => {
       email: devFound.email,
       about: devFound.about,
       profileImage: devFound.profileImage,
+      points: devFound.points,
       documents: devFound.documents,
       experience: devFound.experience,
       education: devFound.education,
@@ -31,22 +34,29 @@ export const profile = async (req, res) => {
 export const updateProfile = async (req, res) => {
   const { id, data } = req.body;
 
-  console.log("file: ", req.files.profileImage);
+  const parsedData = JSON.parse(data);
 
   try {
-    const updateData = { ...data };
+    const updateData = { ...parsedData };
 
-    if (req.file) {
-      updateData.profileImage = req.file.path;
+    if (req.files?.profileImage) {
+      const res = await uploadImage(req.files.profileImage.tempFilePath);
+      updateData.profileImage = {
+        publicId: res.public_id,
+        url: res.secure_url,
+      };
+
+      await fs.unlink(req.files.profileImage.tempFilePath);
     }
 
     const devUpdated = await Developer.findByIdAndUpdate(id, updateData, {
       new: true,
     });
 
+    console.log(devUpdated);
+
     if (!devUpdated) return res.status(400).json({ message: "User not found" });
 
-    console.log(devUpdated);
     res.json({
       id: devUpdated._id,
       userName: devUpdated.userName,
@@ -55,6 +65,7 @@ export const updateProfile = async (req, res) => {
       email: devUpdated.email,
       about: devUpdated.about,
       profileImage: devUpdated.profileImage,
+      points: devUpdated.points,
       documents: devUpdated.documents,
       experience: devUpdated.experience,
       education: devUpdated.education,
