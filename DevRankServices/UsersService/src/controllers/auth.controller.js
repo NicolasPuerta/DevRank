@@ -102,10 +102,10 @@ export const verifyToken = async (req, res) => {
   try {
     const token = req.header("Authorization");
 
-    if (!token) return res.status(401).json({ message: "Unauthorized" });
+    if (!token) return res.status(401).json({ message: "unauthorized" });
 
     jwt.verify(token, TOKEN_SECRET, async (error, dev) => {
-      if (error) return res.status(401).json({ message: "Unauthorized" });
+      if (error) return res.status(401).json({ message: "unauthorized" });
 
       try {
         const devFound = await Developer.findById(dev.id);

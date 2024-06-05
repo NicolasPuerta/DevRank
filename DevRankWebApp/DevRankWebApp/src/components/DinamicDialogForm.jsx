@@ -73,7 +73,7 @@ export default function DinamicDialogForm({ fields, label, onSubmitHandler }) {
             </div>
           ))}
           <DialogFooter className="mt-6">
-            <DialogClose>
+            <DialogClose asChild>
               <Button type="submit">Save</Button>
             </DialogClose>
           </DialogFooter>

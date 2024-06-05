@@ -105,7 +105,11 @@ export default function ProfilePage() {
               {localUser.name + " " + localUser.lastName}
             </h1>
             <p className="text-sm">@{localUser.userName}</p>
-            <p className=" text-sm">points: {localUser.points}</p>
+
+            <div className="flex items-center gap-2">
+              <span className="icon-[mdi--star]"></span>
+              {localUser.points}
+            </div>
           </div>
           <DinamicDialogForm
             fields={[

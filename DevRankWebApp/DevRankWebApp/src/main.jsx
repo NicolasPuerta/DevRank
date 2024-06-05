@@ -9,13 +9,13 @@ import { Toaster } from "./components/ui/toaster.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <AuthProvider>
+    <AuthProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <Router>
           <App />
           <Toaster />
         </Router>
-      </AuthProvider>
-    </ThemeProvider>
+      </ThemeProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

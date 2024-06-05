@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
+import { Button } from "./ui/button";
 
 export default function Navbar() {
   const { logout, user } = useAuth();
@@ -45,26 +46,41 @@ export default function Navbar() {
         </div>
 
         <div className="hidden sm:flex gap-8 items-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar>
-                <AvatarImage src={user.profileImage.url} />
-                <AvatarFallback>{user.userName[0]}</AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link to="/profile">Profile</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link to="/*" onClick={logout}>
-                  Log out
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar>
+                  <AvatarImage src={user.profileImage.url} />
+                  <AvatarFallback>{user.userName[0]}</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link to="/profile">Profile</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/*" onClick={logout}>
+                    Log out
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <>
+              <Button>
+                <Link to="/login" className="hover:text-secondary">
+                  Log In
                 </Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </Button>
+              <Button variant="outline">
+                <Link to="/register" className="hover:text-secondary">
+                  Register
+                </Link>
+              </Button>
+            </>
+          )}
           <ModeToggle />
         </div>
         <div className="sm:hidden flex items-center">
@@ -80,7 +96,7 @@ export default function Navbar() {
           !toggleMenu ? "h-0" : "h-full"
         }`}
       >
-        <div className="flex flex-col gap-12 text-left ml-8 mt-4">
+        <div className="flex flex-col gap-12 text-left px-10 py-24">
           <div className="flex flex-col gap-8">
             <Link
               to="/home"
@@ -108,24 +124,46 @@ export default function Navbar() {
             </Link>
           </div>
 
-          <div className="flex flex-col gap-8">
-            <Link
-              to="/profile"
-              className="flex items-center text-4xl hover:text-secondary"
-            >
-              <Avatar className="mr-2">
-                <AvatarImage src={user.profileImage.url} />
-                <AvatarFallback>{user.userName[0]}</AvatarFallback>
-              </Avatar>
-              Profile
-            </Link>
-            <button
-              onClick={logout}
-              className="flex items-center text-4xl hover:text-secondary"
-            >
-              <span className="icon-[mdi--logout] mr-2"></span> Log out
-            </button>
-          </div>
+          {user ? (
+            <div className="flex flex-col gap-8">
+              <Link
+                to="/profile"
+                className="flex items-center text-4xl hover:text-secondary"
+              >
+                <Avatar className="mr-2">
+                  <AvatarImage src={user.profileImage.url} />
+                  <AvatarFallback>{user.userName[0]}</AvatarFallback>
+                </Avatar>
+                Profile
+              </Link>
+              <button
+                onClick={logout}
+                className="flex items-center text-4xl hover:text-secondary"
+              >
+                <span className="icon-[mdi--logout] mr-2"></span> Log out
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-8">
+              <Button>
+                <Link
+                  to="/login"
+                  className="flex items-center text-4xl hover:text-secondary"
+                >
+                  <span className="icon-[mdi--login] mr-2"></span> Log In
+                </Link>
+              </Button>
+              <Button>
+                <Link
+                  to="/register"
+                  className="flex items-center text-4xl hover:text-secondary"
+                >
+                  <span className="icon-[mdi--account-plus] mr-2"></span>{" "}
+                  Register
+                </Link>
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </nav>

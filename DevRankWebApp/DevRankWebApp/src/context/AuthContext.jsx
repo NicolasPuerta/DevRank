@@ -82,6 +82,8 @@ export const AuthProvider = ({ children }) => {
           localStorage.removeItem("token");
           setErrors(error.response.data.error);
         });
+    } else {
+      setLoading(false);
     }
   }, []);
 
